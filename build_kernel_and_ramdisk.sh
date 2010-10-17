@@ -10,7 +10,7 @@ build_kernel() {
 	cd ..
 }
 
-scripts/run_generate_ramdisk.sh
+scripts/run_generate_ramdisk.sh || exit 1
 build_kernel
 
 if test -n "$1"; then
