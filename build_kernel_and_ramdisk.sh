@@ -14,6 +14,7 @@ scripts/run_generate_ramdisk.sh || exit 1
 build_kernel
 
 if test -n "$1"; then
+	scripts/run_generate_ramdisk.sh || exit 1
 	scripts/copy_modules_to_ramdisk.sh
 	build_kernel
 fi
