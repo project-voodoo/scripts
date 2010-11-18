@@ -6,7 +6,7 @@
 
 build_kernel() {
 	cd linux_gt-i9000/
-	./scripts/build_kernel.sh
+	test -x build_kernel.sh && bash -c ./build_kernel.sh || ./scripts/build_kernel.sh
 	cd ..
 }
 
