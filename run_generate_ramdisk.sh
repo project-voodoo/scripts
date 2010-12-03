@@ -6,6 +6,7 @@ rm -rf output/ramdisk-voodoo/*
 
 lagfix/voodoo_injector/generate_voodoo_ramdisk.sh \
 	-s samsung_ramdisks/working-copy \
+	-t lagfix/stages_builder/stages/ \
 	-d output/ramdisk-voodoo \
 	-p lagfix/voodoo_ramdisk_parts \
 	-x lagfix/extensions -u
