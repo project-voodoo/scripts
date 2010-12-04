@@ -9,6 +9,7 @@ lagfix/voodoo_injector/generate_voodoo_ramdisk.sh \
 	-t lagfix/stages_builder/stages/ \
 	-d output/ramdisk-voodoo \
 	-p lagfix/voodoo_ramdisk_parts \
+	-c cwm/ \
 	-x lagfix/extensions -u
 
 #rm -r output/multiboot
