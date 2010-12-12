@@ -1,39 +1,82 @@
 #!/bin/bash
-
 echo "Mass voodoo injector+repacker"
 
-scripts/run_generate_ramdisk.sh || exit 1
+mkdir -p kernel_injection/output/tarballs
 
 
-echo "Now process kernels_to_inject directory"
+my_generate_voodoo_ramdisk()
+{
+	rm -rf /tmp/ramdisks_with_voodoo_injected/*
 
-test -d kernels_to_inject || exit 1
-mkdir -p kernels_injected/tarballs
+	if test "$1" = 'no-builtin-cwm'; then
+		lagfix/voodoo_injector/generate_voodoo_ramdisk.sh \
+			-s /tmp/ramdisk_to_inject \
+			-d /tmp/ramdisks_with_voodoo_injected \
+			-t lagfix/stages_builder/stages/ \
+			-p lagfix/voodoo_ramdisk_parts \
+			-x lagfix/extensions -u
+	elif test "$1" = 'lzma-loader'; then
+		lagfix/voodoo_injector/generate_voodoo_ramdisk.sh \
+			-s /tmp/ramdisk_to_inject \
+			-d /tmp/ramdisks_with_voodoo_injected \
+			-t lagfix/stages_builder/stages/ \
+			-p lagfix/voodoo_ramdisk_parts \
+			-c cwm/ \
+			-x lagfix/extensions -l
+	else
+		lagfix/voodoo_injector/generate_voodoo_ramdisk.sh \
+			-s /tmp/ramdisk_to_inject \
+			-d /tmp/ramdisks_with_voodoo_injected \
+			-t lagfix/stages_builder/stages/ \
+			-p lagfix/voodoo_ramdisk_parts \
+			-c cwm/ \
+			-x lagfix/extensions -u
+	fi
+}
 
-for x in kernels_to_inject/*.zImage; do
+attempt_kernel_repack()
+{
+	echo -e "Compression mode: $compression\n"
+	kernel_repack_utils/repacker.sh \
+		-s $x \
+		-r /tmp/ramdisks_with_voodoo_injected/full-uncompressed \
+		-c $compression \
+		-d kernel_injection/output/$kernel_filename.zImage
+}
+
+
+for x in kernel_injection/source/*.zImage; do
 	test -f "$x" || return
-	echo -e "\n$x"
+	echo -e "\n\n\n$x\n"
+
 	kernel_filename=`basename $x .zImage`
-
-
+	# choose compression mode automatically based on the filename
 	if test "`echo $kernel_filename | grep -i eclair`" = ""; then
+		version='froyo'
 		compression='lzma'
 	else
+		version='eclair'
 		compression='gzip'
 	fi
 
-	echo -e "Compression mode: $compression\n"
+	rm -rf /tmp/ramdisk_to_inject/*
+	# extract the ramdisk from the kernel
+	kernel_repack_utils/extracter.sh -s "$x" -d /tmp/ramdisk_to_inject
 
-	kernel_repack_utils/repacker.sh \
-		-s $x \
-		-r output/ramdisk-voodoo/uncompressed\
-		-c $compression \
-		-d kernels_injected/$kernel_filename.zImage
+	cp -v ext4_modules/$version/*.ko /tmp/ramdisk_to_inject/lib/modules
+
+	my_generate_voodoo_ramdisk
+
+	if ! attempt_kernel_repack; then
+		# must be too big, let's try with a smaller voodoo ramdisk configuration
+		my_generate_voodoo_ramdisk no-builtin-cwm
+		attempt_kernel_repack
+	fi
 
 	# build .tar archives for Odin
-	cd kernels_injected/
+	cd kernel_injection/output
 	cp -l $kernel_filename.zImage zImage
-	tar cvf tarballs/stock+Voodoo-$kernel_filename.tar zImage
+	tar cf tarballs/stock+Voodoo-$kernel_filename.tar zImage
 	rm zImage
 	cd - >/dev/null
 done
