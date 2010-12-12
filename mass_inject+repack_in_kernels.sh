@@ -39,7 +39,7 @@ attempt_kernel_repack()
 	echo -e "Compression mode: $compression\n"
 	kernel_repack_utils/repacker.sh \
 		-s $x \
-		-r /tmp/ramdisks_with_voodoo_injected/full-uncompressed \
+		-r /tmp/ramdisks_with_voodoo_injected/$1 \
 		-c $compression \
 		-d kernel_injection/output/$kernel_filename.zImage
 }
@@ -67,10 +67,10 @@ for x in kernel_injection/source/*.zImage; do
 
 	my_generate_voodoo_ramdisk
 
-	if ! attempt_kernel_repack; then
+	if ! attempt_kernel_repack full-uncompressed; then
 		# must be too big, let's try with a smaller voodoo ramdisk configuration
-		my_generate_voodoo_ramdisk no-builtin-cwm
-		attempt_kernel_repack
+		my_generate_voodoo_ramdisk lzma-loader
+		attempt_kernel_repack lzma-loader
 	fi
 
 	# build .tar archives for Odin
