@@ -15,7 +15,7 @@ my_generate_voodoo_ramdisk()
 			-t lagfix/stages_builder/stages/ \
 			-p lagfix/voodoo_ramdisk_parts \
 			-x lagfix/extensions -u
-	elif test "$1" = 'lzma-loader'; then
+	elif test "$1" = 'full-lzma-loader'; then
 		lagfix/voodoo_injector/generate_voodoo_ramdisk.sh \
 			-s /tmp/ramdisk_to_inject \
 			-d /tmp/ramdisks_with_voodoo_injected \
@@ -69,8 +69,8 @@ for x in kernel_injection/source/*.zImage; do
 
 	if ! attempt_kernel_repack full-uncompressed; then
 		# must be too big, let's try with a smaller voodoo ramdisk configuration
-		my_generate_voodoo_ramdisk lzma-loader
-		attempt_kernel_repack lzma-loader
+		my_generate_voodoo_ramdisk full-lzma-loader
+		attempt_kernel_repack full-lzma-loader
 	fi
 
 	# build .tar archives for Odin
