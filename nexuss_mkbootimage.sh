@@ -11,5 +11,5 @@ mkbootimg \
 	--kernel /home/share/hardware/nexuss/kernel-from-dump/mtdblock2_boot.img-kernel \
 	--ramdisk ns_out/initramfs.cpio.gz \
 	--base 0x30000000 \
-	--pagesize 1000 \
+	--pagesize 4096 \
 	-o ns_out/bootimage.img
