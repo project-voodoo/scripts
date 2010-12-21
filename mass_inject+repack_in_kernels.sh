@@ -84,6 +84,7 @@ for x in $zImage_list; do
 	cd kernel_injection/output
 	cp -l $kernel_filename.zImage zImage
 	tar cf tarballs/stock+Voodoo-$kernel_filename.tar zImage
+	ls -lh `readlink -f tarballs/stock+Voodoo-$kernel_filename.tar`
 	rm zImage
 	cd - >/dev/null
 
