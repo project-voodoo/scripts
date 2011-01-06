@@ -12,4 +12,5 @@ mkbootimg \
 	--ramdisk ns_out/initramfs.cpio.gz \
 	--base 0x30000000 \
 	--pagesize 4096 \
+	--cmdline 'no_console_suspend=1 console=null' \
 	-o ns_out/bootimage.img
