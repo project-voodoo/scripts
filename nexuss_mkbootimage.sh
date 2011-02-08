@@ -8,7 +8,7 @@ find | grep -v .git | fakeroot cpio -o -H newc | gzip -9 > ../ns_out/initramfs.c
 cd ..
 
 mkbootimg \
-	--kernel /home/share/hardware/nexuss/kernel-from-dump/mtdblock2_boot.img-kernel \
+	--kernel nexuss/arch/arm/boot/zImage \
 	--ramdisk ns_out/initramfs.cpio.gz \
 	--base 0x30000000 \
 	--pagesize 4096 \
