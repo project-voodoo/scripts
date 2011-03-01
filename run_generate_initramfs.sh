@@ -8,9 +8,9 @@ lagfix/voodoo_injector/generate_voodoo_initramfs.sh \
 	-s samsung_initramfs/working-copy \
 	-t lagfix/stages_builder/stages/ \
 	-d output/voodoo-initramfs \
-	-p lagfix/voodoo_initramfs_parts \
 	-c cwm/ \
-	-x lagfix/extensions -u
+	-p lagfix/voodoo_initramfs_parts \
+	-x lagfix/extensions -u -l
 
 #rm -r output/multiboot
 #lagfix/multiboot_injector/generate_multiboot_initramfs.sh \
