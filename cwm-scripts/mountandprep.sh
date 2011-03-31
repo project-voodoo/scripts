@@ -17,7 +17,7 @@ if [ -f "/voodoo/run/cwm_recovery.fstab" ]; then
 	echo "mounting SYSTEM"
 	if [ $(cat /voodoo/run/cwm_recovery.fstab | grep "/system ext4 /dev/block/stl9" | wc -l) -eq "1" ]; then
 		echo "mounting SYSTEM as EXT4"
-		/sbin/mount -t ext4 -o rw,noatime,barrier=1,data=writeback,noauto_da_alloc /dev/block/stl9 /system
+		/sbin/mount -t ext4 -o rw,noatime,barrier=0,data=journal,noauto_da_alloc /dev/block/stl9 /system
 		if [ $(/sbin/mount | grep "/dev/block/stl9 on /system type ext4" | wc -l) -eq "1" ]; then
 			echo "SYSTEM is successfully mounted"
 		else
@@ -46,7 +46,7 @@ if [ -f "/voodoo/run/cwm_recovery.fstab" ]; then
 	echo "mounting DATA"
 	if [ $(cat /voodoo/run/cwm_recovery.fstab | grep "/data ext4 /dev/block/mmcblk0p2" | wc -l) -eq "1" ]; then
 		echo "mounting DATA as EXT4"
-		/sbin/mount -t ext4 -o rw,noatime,barrier=0,data=writeback,noauto_da_alloc /dev/block/mmcblk0p2 /data
+		/sbin/mount -t ext4 -o rw,noatime,data=ordered,barrier=1,noauto_da_alloc /dev/block/mmcblk0p2 /data
 		if [ $(/sbin/mount | grep "/dev/block/mmcblk0p2 on /data type ext4" | wc -l) -eq "1" ]; then
 			echo "DATA is successfully mounted"
 		else
@@ -75,7 +75,7 @@ if [ -f "/voodoo/run/cwm_recovery.fstab" ]; then
 	echo "mounting DBDATA"
 	if [ $(cat /voodoo/run/cwm_recovery.fstab | grep "/datadata ext4 /dev/block/stl10" | wc -l) -eq "1" ]; then
 		echo "mounting DBDATA as EXT4"
-		/sbin/mount -t ext4 -o rw,noatime,barrier=1,data=writeback,noauto_da_alloc /dev/block/stl10 /datadata
+		/sbin/mount -t ext4 -o rw,noatime,barrier=0,data=ordered,nodelalloc,noauto_da_alloc /dev/block/stl10 /datadata
 		if [ $(/sbin/mount | grep "/dev/block/stl10 on /data type ext4" | wc -l) -eq "1" ]; then
 			echo "DBDATA is successfully mounted"
 		else
@@ -168,7 +168,7 @@ else
 			fi
 			if tune2fs -l /dev/block/stl10 > /dev/null; then
 				echo "mounting DBDATA as EXT4"
-				/sbin/mount -t ext4 -o rw,noatime,barrier=1,data=writeback,noauto_da_alloc /dev/block/stl10 /datadata
+				/sbin/mount -t ext4 -o rw,noatime,barrier=0,data=ordered,nodelalloc,noauto_da_alloc /dev/block/stl10 /datadata
 				if [ $(/sbin/mount | grep "/dev/block/stl10 on /data type ext4" | wc -l) -eq "1" ]; then
 					echo "DBDATA is successfully mounted"
 				else
@@ -197,7 +197,7 @@ else
 		echo "mounting DATA"
 		if tune2fs -l /dev/block/mmcblk0p2 > /dev/null; then
 			echo "mounting DATA as EXT4"
-			/sbin/mount -t ext4 -o rw,noatime,barrier=0,data=writeback,noauto_da_alloc /dev/block/mmcblk0p2 /data
+			/sbin/mount -t ext4 -o rw,noatime,data=ordered,barrier=1,noauto_da_alloc /dev/block/mmcblk0p2 /data
 			if [ $(/sbin/mount | grep "/dev/block/mmcblk0p2 on /data type ext4" | wc -l) -eq "1" ]; then
 				echo "DATA is successfully mounted"
 			else
@@ -227,7 +227,7 @@ else
 		echo "mounting SYSTEM"
 		if [ tune2fs -l /dev/block/stl9 > /dev/null; ]; then
 			echo "mounting SYSTEM as EXT4"
-			/sbin/mount -t ext4 -o rw,noatime,barrier=1,data=writeback,noauto_da_alloc /dev/block/stl9 /system
+			/sbin/mount -t ext4 -o rw,noatime,barrier=0,data=journal,noauto_da_alloc /dev/block/stl9 /system
 			if [ $(/sbin/mount | grep "/dev/block/stl9 on /system type ext4" | wc -l) -eq "1" ]; then
 				echo "SYSTEM is successfully mounted"
 			else
