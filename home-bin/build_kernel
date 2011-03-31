@@ -1,0 +1,17 @@
+#!/bin/bash
+
+start_path=$(pwd)
+
+./scripts/run_generate_initramfs.sh
+
+#build kernel
+cd linux_gt-i9000/
+./scripts/clean.sh
+cd Kernel/
+make aries_eur_voodoo_all_defconfig
+cd ..
+./scripts/build_kernel.sh
+cp zImage $start_path/zImage
+cd $start_path
+
+exit 0

@@ -1,0 +1,39 @@
+#!/bin/bash
+
+start_path=$(pwd)
+
+#build recovery
+cd ~/android/system/
+. build/envsetup.sh
+lunch cyanogen_galaxys-eng
+make clean
+make -j4 recoveryimage
+cp out/target/product/galaxys/system/bin/recovery ~/voodoo/cwm/sbin/
+cd ~/voodoo/
+
+#build stages
+cd lagfix/stages_builder/
+./scripts/download_precompiled_stages.sh
+cd ../../
+
+#build zip
+cd lagfix/zip/
+./scripts/download_extract_and_patch_zip.sh
+./scripts/build.sh
+./scripts/install_in_extensions.sh
+cd ../../
+
+#generate initramfs
+./scripts/run_generate_initramfs.sh
+
+#build kernel
+cd linux_gt-i9000/
+./scripts/clean.sh
+cd Kernel/
+make aries_eur_voodoo_all_defconfig
+cd ..
+./scripts/build_kernel.sh
+cp zImage $start_path/zImage
+cd $start_path
+
+exit 0
