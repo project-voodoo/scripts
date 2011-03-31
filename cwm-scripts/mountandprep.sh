@@ -17,7 +17,7 @@ if [ -f "/voodoo/run/cwm_recovery.fstab" ]; then
 	echo "mounting SYSTEM"
 	if [ $(cat /voodoo/run/cwm_recovery.fstab | grep "/system ext4 /dev/block/stl9" | wc -l) -eq "1" ]; then
 		echo "mounting SYSTEM as EXT4"
-		/sbin/mount -t ext4 -o rw,noatime,barrier=0,data=writeback,noauto_da_alloc /dev/block/stl9 /system
+		/sbin/mount -t ext4 -o rw,noatime,barrier=1,data=writeback,noauto_da_alloc /dev/block/stl9 /system
 		if [ $(/sbin/mount | grep "/dev/block/stl9 on /system type ext4" | wc -l) -eq "1" ]; then
 			echo "SYSTEM is successfully mounted"
 		else
@@ -75,7 +75,7 @@ if [ -f "/voodoo/run/cwm_recovery.fstab" ]; then
 	echo "mounting DBDATA"
 	if [ $(cat /voodoo/run/cwm_recovery.fstab | grep "/datadata ext4 /dev/block/stl10" | wc -l) -eq "1" ]; then
 		echo "mounting DBDATA as EXT4"
-		/sbin/mount -t ext4 -o rw,noatime,barrier=0,data=writeback,noauto_da_alloc /dev/block/stl10 /datadata
+		/sbin/mount -t ext4 -o rw,noatime,barrier=1,data=writeback,noauto_da_alloc /dev/block/stl10 /datadata
 		if [ $(/sbin/mount | grep "/dev/block/stl10 on /data type ext4" | wc -l) -eq "1" ]; then
 			echo "DBDATA is successfully mounted"
 		else
@@ -129,7 +129,6 @@ if [ -f "/voodoo/run/cwm_recovery.fstab" ]; then
 	if [ $sys_lagfix -eq "0" ]; then
 		echo "Disabling System Lagfix"
 		/sbin/touch "/sdcard/Voodoo/system-as-rfs"
-		/sbin/touch "/sdcard/Voodoo/dont-convert-system"
 	fi
 	
 else
@@ -169,7 +168,7 @@ else
 			fi
 			if tune2fs -l /dev/block/stl10 > /dev/null; then
 				echo "mounting DBDATA as EXT4"
-				/sbin/mount -t ext4 -o rw,noatime,barrier=0,data=writeback,noauto_da_alloc /dev/block/stl10 /datadata
+				/sbin/mount -t ext4 -o rw,noatime,barrier=1,data=writeback,noauto_da_alloc /dev/block/stl10 /datadata
 				if [ $(/sbin/mount | grep "/dev/block/stl10 on /data type ext4" | wc -l) -eq "1" ]; then
 					echo "DBDATA is successfully mounted"
 				else
@@ -223,13 +222,12 @@ else
 		if [ $(/sbin/mount | grep "/dev/block/stl9 on /system type rfs" | wc -l) -eq "1" ]; then
 			echo "Disabling System Lagfix"
 			/sbin/touch "/sdcard/Voodoo/system-as-rfs"
-			/sbin/touch "/sdcard/Voodoo/dont-convert-system"
 		fi
 	else
 		echo "mounting SYSTEM"
 		if [ tune2fs -l /dev/block/stl9 > /dev/null; ]; then
 			echo "mounting SYSTEM as EXT4"
-			/sbin/mount -t ext4 -o rw,noatime,barrier=0,data=writeback,noauto_da_alloc /dev/block/stl9 /system
+			/sbin/mount -t ext4 -o rw,noatime,barrier=1,data=writeback,noauto_da_alloc /dev/block/stl9 /system
 			if [ $(/sbin/mount | grep "/dev/block/stl9 on /system type ext4" | wc -l) -eq "1" ]; then
 				echo "SYSTEM is successfully mounted"
 			else
@@ -245,7 +243,6 @@ else
 			fi
 			echo "Disabling System Lagfix"
 			/sbin/touch "/sdcard/Voodoo/system-as-rfs"
-			/sbin/touch "/sdcard/Voodoo/dont-convert-system"
 		fi
 	fi
 fi
