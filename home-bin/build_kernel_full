@@ -11,6 +11,12 @@ make -j4 recoveryimage
 cp out/target/product/galaxys/system/bin/recovery ~/voodoo/cwm/sbin/
 cd ~/voodoo/
 
+#update stuff
+#cp -fv ./scripts/cwm/sbin/* ./cwm/sbin/
+#cp -fv ./scripts/cwm/res/images/* ./cwm/res/images/
+#cp -fv ./scripts/for-kernel/Makefile ./linux_gt-i9000/Kernel/Makefile
+#cp -fv ./scripts/for-kernel/dark_core_defconfig ./linux_gt-i9000/Kernel/arch/arm/configs/dark_core_defconfig
+
 #build stages
 cd lagfix/stages_builder/
 ./scripts/download_precompiled_stages.sh

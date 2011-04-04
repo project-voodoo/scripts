@@ -4,6 +4,12 @@ start_path=$(pwd)
 
 cd ~/voodoo/
 
+#update stuff
+#cp -fv ./scripts/cwm/sbin/* ./cwm/sbin/
+#cp -fv ./scripts/cwm/res/images/* ./cwm/res/images/
+#cp -fv ./scripts/for-kernel/Makefile ./linux_gt-i9000/Kernel/Makefile
+#cp -fv ./scripts/for-kernel/dark_core_defconfig ./linux_gt-i9000/Kernel/arch/arm/configs/dark_core_defconfig
+
 #generate initramfs
 ./scripts/run_generate_initramfs.sh
 
@@ -11,7 +17,7 @@ cd ~/voodoo/
 cd linux_gt-i9000/
 ./scripts/clean.sh
 cd Kernel/
-make aries_eur_voodoo_all_defconfig
+make dark_core_defconfig
 cd ..
 ./scripts/build_kernel.sh
 cp zImage $start_path/zImage
