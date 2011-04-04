@@ -247,6 +247,14 @@ else
 	fi
 fi
 
+# Backup current vold.fstab [13.03.2011]
+if [ -f /system/etc/vold.fstab ]; then
+		echo "Copying vold.fstab to /tmp"
+		cp /system/etc/vold.fstab /tmp/
+	else
+		echo "No vold.fstab found"
+fi
+
 # Backup current batterystats.bin
 if [ -f /data/system/batterystats.bin ]; then
 		echo "Copying batterystats.bin to /tmp"
