@@ -11,6 +11,15 @@ show "Galaxy S GT-I9000 Froyo"
 show "Nexus S"
 ./scripts/nexuss_build_kernel.sh
 
+show "Galaxy S CM7"
+./scripts/cm7_galaxys_build_kernel.sh
+
+#show "Galaxy S Gingerbread leak"
+#./scripts/gingerbread_leak_galaxys_build_kernel.sh
+
+show "Galaxy S GT-I9000 Gingerbread"
+./scripts/sgs_gb_build_kernel.sh
+
 show "Galaxy S GT-I9000 Eclair"
 cd linux_gt-i9000-eclair
 nice -n 20 bash ./build_kernel.sh
@@ -28,6 +37,11 @@ cd - > /dev/null
 
 show "Epic4G Froyo"
 cd linux_sph-d700
+nice -n 20 bash ./build_kernel.sh
+cd - > /dev/null
+
+show "Epic4G Eclair"
+cd linux_sph-d700-eclair
 nice -n 20 bash ./build_kernel.sh
 cd - > /dev/null
 
