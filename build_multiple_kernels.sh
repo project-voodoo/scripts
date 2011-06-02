@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export CONFIG_SND_VOODOO_MODULE="m"
+
 show()
 {
 	echo -e "\n  * $1\n"
@@ -20,19 +22,29 @@ show "Galaxy S CM7"
 show "Galaxy S GT-I9000 Gingerbread"
 ./scripts/sgs_gb_build_kernel.sh
 
+show "Galaxy S Galaxy Tab FAKE Gingerbread"
+cd linux_galaxytab-gingerbread/
+nice -n 10 make -j8
+cd - > /dev/null
+
 show "Galaxy S GT-I9000 Eclair"
 cd linux_gt-i9000-eclair
 nice -n 20 bash ./build_kernel.sh
 cd - > /dev/null
 
-show "Galaxy Tab Verizon"
+show "Galaxy Tab Verizon Froyo"
 cd /home/curio/dev/voodoo/linux_sch-i800/Kernel
 nice -n 20 make -j6
 cd - > /dev/null
 
 show "Fascinate Eclair"
-cd linux_sch-i500
+cd linux_sch-i500-eclair
 nice -n 20 bash ./build_kernel.sh
+cd - > /dev/null
+
+show "Fascinate Froyo"
+cd linux_sch-i500-froyo/Kernel
+nice -n 20 make -j8
 cd - > /dev/null
 
 show "Epic4G Froyo"
@@ -62,6 +74,11 @@ cd - > /dev/null
 
 show "M110S Froyo"
 cd linux_shw-m110s
+nice -n 20 make -j8
+cd - > /dev/null
+
+show "M110S Gingerbread"
+cd linux_shw-m110s-gingerbread
 nice -n 20 make -j8
 cd - > /dev/null
 

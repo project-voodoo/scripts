@@ -5,7 +5,7 @@
 
 
 build_kernel() {
-	cd linux_gt-i9000/
+	cd froyo/
 	test -x build_kernel.sh && bash -c ./build_kernel.sh || ./scripts/build_kernel.sh
 	cd ..
 }

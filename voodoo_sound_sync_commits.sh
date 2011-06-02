@@ -16,6 +16,9 @@ do_things()
 		git add ./sound/soc/codecs/victory/wm8994*.c
 		git add ./sound/soc/codecs/wm8994_voodoo.h 2>/dev/null
 		git add ./sound/soc/codecs/victory/wm8994_voodoo.h
+		git add ./sound/soc/codecs/atlas/wm8994.c
+		git add ./sound/soc/codecs/atlas/wm8994.c
+		git add ./sound/soc/codecs/atlas/wm8994_aries.c
 		git add ./sound/soc/codecs/Makefile
 		git add ./sound/soc/codecs/Kconfig.voodoo
 		git add ./sound/soc/Kconfig
@@ -36,9 +39,9 @@ cd linux_gt-i9000-eclair/linux-2.6.29/ && do_things
 
 cd linux_sch-i800/Kernel/ && do_things
 
-cd linux_sch-i500/Kernel/ && do_things
+cd linux_sch-i500-eclair/Kernel/ && do_things
 
-cd linux_gt-i9000/linux-2.6.29/ && do_things
+cd linux_sch-i500-froyo/Kernel/ && do_things
 
 cd linux_sgh-t959/ && do_things
 
@@ -47,6 +50,8 @@ cd linux_sgh-t959v/ && do_things
 cd linux_sgh-i897/ && do_things
 
 cd linux_shw-m110s/ && do_things
+
+cd linux_shw-m110s-gingerbread/ && do_things
 
 cd linux_sph-d700-eclair/linux-2.6.29/ && do_things
 
